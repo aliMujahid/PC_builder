@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BuildContext } from "../context/BuildContext";
 
 export default function BuilderTable() {
-  let navigate = useNavigate();
+  const { dispatch } = useContext(BuildContext);
   const componentList = [
     { name: "Mother Board", id: "motherBoard" },
     { name: "Processor", id: "processor" },
@@ -13,6 +13,8 @@ export default function BuilderTable() {
     { name: "Power Supply", id: "powerSupply" },
     { name: "Casing", id: "casing" },
   ];
+
+  let navigate = useNavigate();
   const handleClick = (e) => {
     navigate("/productList/" + e.target.id);
   };
@@ -27,42 +29,52 @@ export default function BuilderTable() {
     return total;
   };
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Componets</th>
-          <th>Products</th>
-          <th>Unit Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {componentList.map((component) => {
-          return (
-            <tr key={component.id}>
-              <td id={component.id} onClick={handleClick}>
-                {component.name}
-              </td>
-              {build[component.id] ? (
-                <>
-                  <td>{build[component.id]["name"]}</td>
-                  <td>{build[component.id]["price"]}</td>
-                </>
-              ) : (
-                <>
-                  <td></td>
-                  <td></td>
-                </>
-              )}
-            </tr>
-          );
-        })}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colSpan="2">Total</td>
-          <td>{calculateTotal()}</td>
-        </tr>
-      </tfoot>
-    </table>
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>Componets</th>
+            <th>Products</th>
+            <th>Unit Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {componentList.map((component) => {
+            return (
+              <tr key={component.id}>
+                <td id={component.id} onClick={handleClick}>
+                  {component.name}
+                </td>
+                {build[component.id] ? (
+                  <>
+                    <td>{build[component.id]["name"]}</td>
+                    <td>{build[component.id]["price"]}</td>
+                  </>
+                ) : (
+                  <>
+                    <td></td>
+                    <td></td>
+                  </>
+                )}
+              </tr>
+            );
+          })}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="2">Total</td>
+            <td>{calculateTotal()}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <button
+        onClick={() => {
+          dispatch({ type: "RESET" });
+        }}
+      >
+        RESET
+      </button>
+    </>
   );
 }

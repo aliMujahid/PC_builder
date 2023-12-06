@@ -1,17 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProductListItem from "../components/ProductListItem";
 import { useContext } from "react";
 import { BuildContext } from "../context/BuildContext";
 import { products } from "../components/data";
 
 export default function ProductList() {
+  let navigate = useNavigate();
   const params = useParams();
   let component_list = products[params.component];
   const { build, dispatch } = useContext(BuildContext);
   const handleClick = (product) => {
     const selected = { component: params.component, product: product };
     dispatch({ type: "ADD_PRODUCT", payload: selected });
-    console.log(build);
+    navigate("/");
   };
   return (
     <>
