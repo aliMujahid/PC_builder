@@ -17,6 +17,15 @@ export default function BuilderTable() {
     navigate("/productList/" + e.target.id);
   };
   const { build } = useContext(BuildContext);
+
+  const calculateTotal = () => {
+    const productList = Object.values(build);
+    let total = 0;
+    productList.forEach((element) => {
+      total = total + element["price"];
+    });
+    return total;
+  };
   return (
     <table>
       <thead>
@@ -50,7 +59,8 @@ export default function BuilderTable() {
       </tbody>
       <tfoot>
         <tr>
-          <td colSpan="4">Total</td>
+          <td colSpan="2">Total</td>
+          <td>{calculateTotal()}</td>
         </tr>
       </tfoot>
     </table>
