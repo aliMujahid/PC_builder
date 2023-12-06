@@ -1,10 +1,22 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { BuildContext } from "../context/BuildContext";
 
 export default function BuilderTable() {
   let navigate = useNavigate();
+  const componentList = [
+    { name: "Mother Board", id: "motherBoard" },
+    { name: "Processor", id: "processor" },
+    { name: "CPU Fan", id: "cpuFan" },
+    { name: "RAM", id: "ram" },
+    { name: "Hard Drive", id: "hardDrive" },
+    { name: "Power Supply", id: "powerSupply" },
+    { name: "Casing", id: "casing" },
+  ];
   const handleClick = (e) => {
     navigate("/productList/" + e.target.id);
   };
+  const { build } = useContext(BuildContext);
   return (
     <table>
       <thead>
@@ -12,80 +24,29 @@ export default function BuilderTable() {
           <th>Componets</th>
           <th>Products</th>
           <th>Unit Price</th>
-          <th>Quantity</th>
-          <th>subtotal</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td id="motherBoard" onClick={handleClick}>
-            Mother Board
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="processor" onClick={handleClick}>
-            Processor
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="ram" onClick={handleClick}>
-            RAM
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="cpuFan" onClick={handleClick}>
-            CPU Fan
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="hardDrive" onClick={handleClick}>
-            Hard Drive
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="powerSupply" onClick={handleClick}>
-            Power Supply
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td id="casing" onClick={handleClick}>
-            Casing
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        {componentList.map((component) => {
+          return (
+            <tr key={component.id}>
+              <td id={component.id} onClick={handleClick}>
+                {component.name}
+              </td>
+              {build[component.id] ? (
+                <>
+                  <td>{build[component.id]["name"]}</td>
+                  <td>{build[component.id]["price"]}</td>
+                </>
+              ) : (
+                <>
+                  <td></td>
+                  <td></td>
+                </>
+              )}
+            </tr>
+          );
+        })}
       </tbody>
       <tfoot>
         <tr>
