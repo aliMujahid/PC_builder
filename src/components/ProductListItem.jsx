@@ -1,4 +1,4 @@
-export default function ProductListItem({ product }) {
+export default function ProductListItem({ product, handleClick }) {
   return (
     <div
       className="productCard"
@@ -10,6 +10,13 @@ export default function ProductListItem({ product }) {
         <i>price:</i>
         {product.price}
       </p>
+      <button
+        onClick={() => {
+          handleClick(product);
+        }}
+      >
+        ADD
+      </button>
     </div>
   );
 }
